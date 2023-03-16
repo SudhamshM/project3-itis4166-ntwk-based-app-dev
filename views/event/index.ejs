@@ -1,0 +1,16 @@
+<%- include('../partials/header.ejs') %>
+<div class="container p-2">
+    <% Object.keys(eventObject).forEach(genre=> { %>
+     <h3><%= genre %></h3>
+     <% if (eventObject[genre]) { %>
+        <ul class="ml-3 list-group">
+            <% eventObject[genre].forEach(story => { %>
+            <li class="list-group-item list-group-item-action"><a href="/events/<%= story.id %>" class="list-group-item-action"><%= story.title %></a></li>
+            <% }) %>
+        </ul>
+     <% } else { %>
+        <p>No movies in this genre.</p>
+    <% } %>
+    <% }) %>
+</div>
+<%- include('../partials/footer.ejs') %>

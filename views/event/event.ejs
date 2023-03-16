@@ -1,0 +1,35 @@
+<%- include('../partials/header.ejs') %>
+        <div class="container">
+            <div class="pt-1 mb-2">
+            <h4 class="mb-0 text-center"><%= event.category %> Genre: <%= event.title %>
+                <form>
+                  <input type="submit" formaction="/events/<%= event.id %>?_method=DELETE" formmethod="post" value="Delete" class="btn btn-lg btn-danger" title="Delete movie event">
+                  <input type="submit" formaction="/events/<%= event.id %>/edit" formmethod="get" value="Edit" class="btn btn-lg btn-success">  
+                </form>
+            </button>
+            </h4>
+            </div>
+            <!-- Used card model from bootstrap -->
+            <div class="col d-flex justify-content-center">
+            <div class="card mb-2 w-50">
+                <img class="card-img-top" src="/<%= event.image %>" alt="<%= event.title %> movie poster" style="object-fit: cover;" width="286" height="398">
+                <div class="card-body">
+                  <h5 class="card-title"><%= event.title %></h5>
+                  <p class="card-text"><%= event.details %></p>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item"><strong>Host: </strong> <%= event.hostName %></li>
+                  <li class="list-group-item"><strong>Start Time: </strong> <%= event.startTime %></li>
+                  <li class="list-group-item"><strong>End Time: </strong> <%= event.endTime %></li>
+                  <li class="list-group-item"><strong>Location: </strong> <%= event.location %></li>
+                </ul>
+                <div class="card-body">
+                  <a href="https://www.youtube.com/results?search_query=<%= encodeURIComponent(event.title) %>+trailer" target="_blank" class="card-link">Watch trailer</a>
+                  <a href="https://www.google.com/maps/search/<%= encodeURIComponent(event.location) %>" target="_blank" class="card-link">Get directions</a>
+                </div>
+              </div>
+            </div>
+
+        </div>
+
+<%- include('../partials/footer.ejs') %>
