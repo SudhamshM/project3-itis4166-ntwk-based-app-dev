@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const methodOverride = require('method-override')
 const eventRoutes = require('./routes/eventRoutes');
 const mainRoutes = require('./routes/mainRoutes');
+require('dotenv').config()
 const mongoose = require('mongoose')
 
 
@@ -13,7 +14,10 @@ const app = express();
 // configure app
 let port = process.env.PORT || 3000;
 let host = 'localhost';
-let url = 'mongodb-url here'
+// acquiring db auth credentials from environment variable
+const auth = process.env.AUTH || undefined
+
+let url = 'mongodb+srv://' + auth + '@cluster0.wwc6q82.mongodb.net/nbad-project3?retryWrites=true&w=majority'
 app.set('view engine', 'ejs');
 
 // connect to mongodb
