@@ -42,7 +42,7 @@ exports.create = (req, res, next) =>
 exports.show = (req, res, next) =>
 {
     let id = req.params.id;
-    let event = model.findById(id)
+    model.findById(id)
     .then(
         (event) => {
             if (event)
@@ -64,17 +64,22 @@ exports.show = (req, res, next) =>
 exports.edit = (req, res, next) =>
 {
     let id = req.params.id;
-    let event = model.findByid(id);
-    if (event)
-    {
-        res.render('./event/edit', {event});
-    }
-    else
-    {
-        let err = new Error("Cannot find event with id " + id);
-        err.status = 404;
-        next(err);
-    }
+    model.findById(id)
+    .then(
+        (event) => {
+            if (event)
+            {
+                res.render('./event/edit', {event})
+            }
+            else
+            {
+                let err = new Error("Cannot find event with id " + id);
+                err.status = 404;
+                next(err);
+            }
+}
+    )
+    .catch(err => next(err))
 };
 
 exports.update = (req, res, next) => {
