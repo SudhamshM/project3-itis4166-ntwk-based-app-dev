@@ -42,6 +42,13 @@ exports.create = (req, res, next) =>
 exports.show = (req, res, next) =>
 {
     let id = req.params.id;
+    // check proper id given
+    if (!id.match(/^[0-9a-fA-F]{24}$/))
+    {
+        let err = new Error('Invalid id given: ' + id)
+        err.status = 400;
+        return next(err);
+    }
     model.findById(id)
     .then(
         (event) => {
@@ -64,6 +71,12 @@ exports.show = (req, res, next) =>
 exports.edit = (req, res, next) =>
 {
     let id = req.params.id;
+    if (!id.match(/^[0-9a-fA-F]{24}$/))
+    {
+        let err = new Error('Invalid id given: ' + id)
+        err.status = 400;
+        return next(err);
+    }
     model.findById(id)
     .then(
         (event) => {
@@ -73,41 +86,69 @@ exports.edit = (req, res, next) =>
             }
             else
             {
-                let err = new Error("Cannot find event with id " + id);
+                let err = new Error("Cannot find event with id ");
                 err.status = 404;
                 next(err);
             }
-}
+                }
     )
     .catch(err => next(err))
 };
 
-exports.update = (req, res, next) => {
+exports.update = (req, res, next) => 
+{
     let event = req.body;
     let id = req.params.id;
-    event.image = "images/" + req.file.filename;
-    if (model.updateById(id, event)) 
+    if (!id.match(/^[0-9a-fA-F]{24}$/))
     {
-        console.log("updated movie event");
-        res.redirect('/events/' + id);
-    } 
-    else {
-        let err = new Error('Cannot find a event with id ' +id);
-        err.status = 404;
-        next(err);
+        let err = new Error('Invalid id given: ' + id)
+        err.status = 400;
+        return next(err);
     }
+    event.image = "images/" + req.file.filename;
+model.findByIdAndUpdate(id, event)
+    .then((event) =>
+    {
+        if (event)
+        {
+            console.log("updated movie event");
+            return res.redirect('/events/' + id);
+        }
+        else {
+            let err = new Error('Cannot find a event with id ' +id);
+            err.status = 404;
+            next(err);
+        }
+    } )
+    .catch(err => next(err))
+    
+   
 };
 
 exports.delete = (req, res, next) =>
 {
     let id = req.params.id;
-    let event = model.find(id);
-    if (model.deleteById(id)) {
-        res.redirect('/events');
-    } else {
-        let err = new Error('Cannot find a event with id ' +id);
-        err.status = 404;
-        next(err);
+    if (!id.match(/^[0-9a-fA-F]{24}$/))
+    {
+        let err = new Error('Invalid id given: ' + id)
+        err.status = 400;
+        return next(err);
     }
+
+    model.findOneAndDelete({_id: id})
+    .then((event) =>
+    {
+        if (event)
+        {
+            return res.redirect('/events');
+        }
+        else
+        {
+            let err = new Error('Cannot find a event with id ' +id);
+            err.status = 404;
+            next(err);
+        }
+    })
+    .catch(err => next(err))
 };
 
