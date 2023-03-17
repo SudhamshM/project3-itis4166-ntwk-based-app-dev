@@ -19,8 +19,8 @@
                 </div>
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item"><strong>Host: </strong> <%= event.hostName %></li>
-                  <li class="list-group-item"><strong>Start Time: </strong> <%= event.startTime %></li>
-                  <li class="list-group-item"><strong>End Time: </strong> <%= event.endTime %></li>
+                  <li class="list-group-item"><strong>Start Time: </strong> <%= (new Date(event.startTime)).toLocaleString() %></li>
+                  <li class="list-group-item"><strong>End Time: </strong> <%= (new Date(event.endTime)).toLocaleString() %></li>
                   <li class="list-group-item"><strong>Location: </strong> <%= event.location %></li>
                 </ul>
                 <div class="card-body">

@@ -42,17 +42,22 @@ exports.create = (req, res, next) =>
 exports.show = (req, res, next) =>
 {
     let id = req.params.id;
-    let event = model.findByid(id);
-    if (event)
-    {
-        res.render('./event/event', {event})
-    }
-    else
-    {
-        let err = new Error("Cannot find event with id " + id);
-        err.status = 404;
-        next(err);
-    }
+    let event = model.findById(id)
+    .then(
+        (event) => {
+            if (event)
+            {
+                res.render('./event/event', {event})
+            }
+            else
+            {
+                let err = new Error("Cannot find event with id " + id);
+                err.status = 404;
+                next(err);
+            }
+}
+    )
+    .catch(err => next(err))
     
 };
 
