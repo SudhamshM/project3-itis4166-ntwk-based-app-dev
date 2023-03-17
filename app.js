@@ -13,7 +13,20 @@ const app = express();
 // configure app
 let port = process.env.PORT || 3000;
 let host = 'localhost';
+let url = 'mongodb-url here'
 app.set('view engine', 'ejs');
+
+// connect to mongodb
+mongoose.connect(url)
+.then(
+        //start the server
+        app.listen(port, host, () =>
+        {
+            console.log('Server is running on port', port);
+        })
+        
+    )
+.catch(err => console.log(err.message))
 
 // mount middleware
 app.use(express.static('public'));
@@ -52,9 +65,3 @@ app.use((err, req, res, next) =>
     res.status(err.status);
     res.render('./main/error', {error: err});
 });
-
-// start server
-app.listen(port, host, () =>
-{
-    console.log('Server is running at port ', port);
-})

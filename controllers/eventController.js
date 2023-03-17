@@ -21,10 +21,10 @@ exports.create = (req, res, next) =>
 {
     let event = req.body;
     event.image = "images/" + req.file.filename;
-    model.save(event);
-    let image = req.file.filename;
-    console.log("image: " + image);
-    // let categoryStories = {action: model.findByGenre('Action'), romance: model.findByGenre('Romance')}
+    let eventModel = new model(event);
+    eventModel.save()
+    .then((meetup) => console.log(meetup))
+    .catch(next(err))
     res.render('./event/event', {event})
 };
 
