@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const methodOverride = require('method-override')
 const eventRoutes = require('./routes/eventRoutes');
 const mainRoutes = require('./routes/mainRoutes');
+const mongoose = require('mongoose')
 
 
 // create application

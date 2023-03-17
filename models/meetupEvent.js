@@ -1,6 +1,22 @@
-const {DateTime} =  require('luxon');
-const {v4: uuidv4} = require('uuid');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema; 
 
+const meetupSchema = new Schema(
+    {
+        title: {type: String, required: [true, "Title is required"]},
+        details: {type: String, required: [true, "Details are required"]},
+        hostName: {type: String, required: [true, "Host name is required"]},
+        category: {type: String, required: [true, "Category is required"]},
+        image: {type: String, required: [true, "Image is required"]},
+        location: {type: String, required: [true, "Location is required"]},
+        startTime: {type: Date, required: [true, "Start date is required"]},
+        endTime: {type: Date, required: [true, "End date is required"]}
+    },
+    {timestamps: true}
+)
+
+// collection name in db is meetups
+module.exports = mongoose.model('Meetup', meetupSchema);
 const events = [
     {
         id: '1',
@@ -86,83 +102,3 @@ const events = [
     },
 ]
 
-exports.find = function ()
-{
-    return events;
-}
-
-exports.findByid = (id) => events.find(event => event.id === id)
-
-exports.findByGenre = (genre) => events.filter(event => event.category === genre)
-
-exports.save = (event) =>
-{
-    event.id = uuidv4();
-    let unparsedDate = event.startTime;
-    let unparsedEnd = event.endTime;
-    let parsedDate = DateTime.fromJSDate(new Date(unparsedDate)).toLocaleString(DateTime.DATETIME_MED);
-    let parsedEnd = DateTime.fromJSDate(new Date(unparsedEnd)).toLocaleString(DateTime.DATETIME_MED);
-    event.startTime = parsedDate;
-    event.endTime = parsedEnd;
-    events.push(event);
-}
-
-exports.findAll = function()
-{
-    result = events.reduce(function (eventObject, event) 
-    {
-        eventObject[event.category] = eventObject[event.category] || [];
-        eventObject[event.category].push(event);
-        return eventObject;
-    }, Object.create(null));
-    console.log("printing all movies");
-    Object.keys(result).forEach(genre =>
-    {
-        console.log(result[genre])
-    });
-    return result;   
-}
-
-exports.deleteById = (id) =>
-{
-    let index = events.findIndex(event => event.id === id);
-    if (index !== -1) 
-    {
-        events.splice(index,1);
-        return true;
-    } 
-    else 
-    {
-        return false;
-    }
-}
-
-exports.updateById = (id, newEvent) =>
-{
-    let event = events.find(event => event.id === id);
-    if (event) 
-    {
-        event.category = newEvent.category;
-        event.title = newEvent.title;
-        event.host = newEvent.host;
-
-        let unparsedDate = newEvent.startTime;
-        let unparsedEnd = newEvent.endTime;
-        let parsedDate = DateTime.fromJSDate(new Date(unparsedDate)).toLocaleString(DateTime.DATETIME_MED);
-        let parsedEnd = DateTime.fromJSDate(new Date(unparsedEnd)).toLocaleString(DateTime.DATETIME_MED);
-        event.startTime = parsedDate;
-        event.endTime = parsedEnd;
-        
-
-        event.details = newEvent.details;
-        event.location = newEvent.location;
-        event.image = newEvent.image;
-        
-        return true;
-    } 
-    else 
-    {
-        console.log("update by id false")
-        return false;
-    }
-}
