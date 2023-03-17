@@ -1,15 +1,26 @@
-const express = require('express');
 const model = require('../models/meetupEvent')
 
 
 
 // /GET stories: send all stories to user
 
-exports.index = (req, res) =>
+exports.index = (req, res, next) =>
 {
-    let categoryStories = {action: model.findByGenre('Action'), romance: model.findByGenre('Romance')}
-    let eventObject = model.findAll();
-    res.render('./event/index', {stories: categoryStories, eventObject});
+    model.find()
+    .then((events) => 
+    {
+        let array = Array.from(events);
+        result = array.reduce(function (eventObject, event) 
+        {
+            eventObject[event.category] = eventObject[event.category] || [];
+            eventObject[event.category].push(event);
+            return eventObject;
+        }, Object.create(null));
+        return res.render('./event/index', {eventObject: result})
+    })
+    .catch(err => next(err))
+   
+    
 };
 
 exports.new = (req, res) =>
@@ -23,9 +34,9 @@ exports.create = (req, res, next) =>
     event.image = "images/" + req.file.filename;
     let eventModel = new model(event);
     eventModel.save()
-    .then((meetup) => console.log(meetup))
+    .then((event) => res.render('./event/event', {event}))
     .catch(next(err))
-    res.render('./event/event', {event})
+    
 };
 
 exports.show = (req, res, next) =>
@@ -89,3 +100,4 @@ exports.delete = (req, res, next) =>
         next(err);
     }
 };
+
