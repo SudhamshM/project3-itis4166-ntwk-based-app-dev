@@ -35,7 +35,14 @@ exports.create = (req, res, next) =>
     let eventModel = new model(event);
     eventModel.save()
     .then((event) => res.render('./event/event', {event}))
-    .catch(err => next(err))
+    .catch(err => 
+        {
+            if (err.name === 'ValidationError')
+            {
+                err.status = 400;
+            }
+            return next(err);
+        })
     
 };
 
@@ -106,7 +113,7 @@ exports.update = (req, res, next) =>
         return next(err);
     }
     event.image = "images/" + req.file.filename;
-model.findByIdAndUpdate(id, event)
+model.findByIdAndUpdate(id, event, {useFindAndModify: false, runValidators: true})
     .then((event) =>
     {
         if (event)
@@ -120,7 +127,14 @@ model.findByIdAndUpdate(id, event)
             next(err);
         }
     } )
-    .catch(err => next(err))
+    .catch(err => 
+        {
+            if (err.name === 'ValidationError')
+            {
+                err.status = 400;
+            }
+            return next(err); 
+        })
     
    
 };
