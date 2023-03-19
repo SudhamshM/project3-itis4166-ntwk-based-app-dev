@@ -2,7 +2,7 @@
 
 An extension of Project 2, with a major improvement in using Mongoose/MongoDB for the database.
 
-Deployed to Render now! Check it out here (https://project2moviemeetup.onrender.com)
+The new iteration is deployed to Render now! Check it out here (https://project3moviemeetup.onrender.com)
 
 Screenshots (zoomed out)
 

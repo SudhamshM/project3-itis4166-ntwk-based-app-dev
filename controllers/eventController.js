@@ -35,7 +35,7 @@ exports.create = (req, res, next) =>
     let eventModel = new model(event);
     eventModel.save()
     .then((event) => res.render('./event/event', {event}))
-    .catch(next(err))
+    .catch(err => next(err))
     
 };
 

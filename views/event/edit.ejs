@@ -19,7 +19,7 @@
                 <div class="form-group row m-2">
                     <label for="movieEventTitle" class="col-sm-2 col-form-label">Title</label>
                     <div class="col-sm-10">
-                        <input type="text" name="title" class="form-control" value="<%= event.title %>" id="movieEventTitle" placeholder="Enter title here"
+                        <input type="text" name="title" autocomplete="off" class="form-control" value="<%= event.title %>" id="movieEventTitle" placeholder="Enter title here"
                             required>
                     </div>
                 </div>
@@ -33,14 +33,14 @@
                 <div class="form-group row m-2">
                     <label for="movieEventLocation" class="col-sm-2 col-form-label">Where</label>
                     <div class="col-sm-10">
-                        <input type="text" name="location" value="<%= event.location %>" class="form-control" id="movieEventLocation"
+                        <input type="text" name="location" autocomplete="off" value="<%= event.location %>" class="form-control" id="movieEventLocation"
                             placeholder="Enter location here" required>
                     </div>
                 </div>
                 <div class="form-group row m-2">
                     <label for="movieEventHost" class="col-sm-2 col-form-label">Host</label>
                     <div class="col-sm-10">
-                        <input type="text"  value="<%= event.hostName %>" name="hostName" class="form-control" id="movieEventHost" placeholder="Enter host name here"
+                        <input type="text" autocomplete="off" value="<%= event.hostName %>" name="hostName" class="form-control" id="movieEventHost" placeholder="Enter host name here"
                             required>
                     </div>
                 </div>
