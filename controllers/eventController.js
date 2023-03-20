@@ -34,7 +34,7 @@ exports.create = (req, res, next) =>
     event.image = "images/" + req.file.filename;
     let eventModel = new model(event);
     eventModel.save()
-    .then((event) => res.render('./event/event', {event}))
+    .then((event) => res.render('./event/show', {event}))
     .catch(err => 
         {
             if (err.name === 'ValidationError')
@@ -61,7 +61,7 @@ exports.show = (req, res, next) =>
         (event) => {
             if (event)
             {
-                res.render('./event/event', {event})
+                res.render('./event/show', {event})
             }
             else
             {
