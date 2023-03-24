@@ -93,7 +93,7 @@ exports.edit = (req, res, next) =>
             }
             else
             {
-                let err = new Error("Cannot find event with id ");
+                let err = new Error("Cannot find event with id " + id);
                 err.status = 404;
                 next(err);
             }
@@ -122,7 +122,7 @@ exports.update = (req, res, next) =>
             return res.redirect('/events/' + id);
         }
         else {
-            let err = new Error('Cannot find a event with id ' +id);
+            let err = new Error('Cannot find a event with id ' + id);
             err.status = 404;
             next(err);
         }
@@ -158,7 +158,7 @@ exports.delete = (req, res, next) =>
         }
         else
         {
-            let err = new Error('Cannot find a event with id ' +id);
+            let err = new Error('Cannot find a event with id ' + id);
             err.status = 404;
             next(err);
         }

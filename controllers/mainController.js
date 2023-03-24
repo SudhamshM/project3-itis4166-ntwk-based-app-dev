@@ -1,4 +1,3 @@
-const express = require('express');
 
 // /GET index: homepage of MM
 
